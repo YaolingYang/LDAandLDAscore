@@ -1,2 +1,3 @@
 It is the codes for calculating LDA and LDA score.
-It will appear sometime later.
+
+There is also a document introducing the definition of LDA and LDA score.
