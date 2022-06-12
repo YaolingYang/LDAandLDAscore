@@ -1,0 +1,17 @@
+Package: LDAandLDAS
+Type: Package
+Title: Calculate Linkage disequilibrium of ancestry (LDA) and LDA score (LDAS)
+Version: 0.1.0
+Author: Yaoling Yang
+Maintainer: Yaoling Yang <yaoling.yang@bristol.ac.uk>
+Description: This package includes two functions: LDA and LDAS.
+    LDA calculates the pairwise linkage disequilibrium of ancestry between SNPs.
+    LDAS calculates the LDA score of SNPs.
+License: Not known
+Encoding: UTF-8
+LazyData: true
+Imports: Rcpp (>= 1.0.8)
+LinkingTo: Rcpp
+RoxygenNote: 7.1.2
+Depends: 
+    R (>= 2.10)
