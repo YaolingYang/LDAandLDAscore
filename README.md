@@ -15,15 +15,21 @@ A simple example:
 library(LDAandLDAS)
 
 #painting data for two ancestries
+
 data1 <- read.table('painting_p1.csv',sep=',',header=TRUE)
+
 data2 <- read.table('painting_p2.csv',sep=',',header=TRUE)
+
 data=cbind(data1[,-1],data2[,-1])
 
 #calculate the pairwise LDA of SNPs
+
 LDA_result <- LDA(data,ancestry=2)
 
 #A file with physical position and recombination distance of the SNPs
+
 map <- read.table('map.csv',sep=',',header=TRUE)
 
 #calculate the LDA score for the SNPs
+
 LDA_score <- LDAS(LDA_result,map,window=4)
