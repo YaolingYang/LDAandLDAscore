@@ -17,9 +17,9 @@ library(LDAandLDAS)
 
 #painting data for two ancestries
 
-data1 <- read.table('painting_p1.csv',sep=',',header=TRUE)
+data1 <- read.csv("https://raw.githubusercontent.com/YaolingYang/LDAandLDAscore/master/painting_p1.csv")
 
-data2 <- read.table('painting_p2.csv',sep=',',header=TRUE)
+data2 <- read.csv("https://raw.githubusercontent.com/YaolingYang/LDAandLDAscore/master/painting_p2.csv")
 
 data=cbind(data1[,-1],data2[,-1])
 
@@ -29,7 +29,7 @@ LDA_result <- LDA(data,ancestry=2)
 
 #A file with physical position and recombination distance of the SNPs
 
-map <- read.table('map.csv',sep=',',header=TRUE)
+map <- read.csv("https://raw.githubusercontent.com/YaolingYang/LDAandLDAscore/master/map.csv")
 
 #calculate the LDA score for the SNPs
 
