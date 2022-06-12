@@ -7,11 +7,12 @@ A detailed description can be found in LDA_and_LDA_score.pdf.
 R Package "LDAandLDAS" includes two functions "LDA" and "LDAS" for calculating LDA and LDA score, respectively.
 
 You can download the R package by typing the following codes in R:
-
+```
 devtools::install_github("YaolingYang/LDAandLDAscore/LDAandLDAS")
+```
 
 A simple example:
-
+```
 library(LDAandLDAS)
 
 #painting data for two ancestries
@@ -33,3 +34,4 @@ map <- read.table('map.csv',sep=',',header=TRUE)
 #calculate the LDA score for the SNPs
 
 LDA_score <- LDAS(LDA_result,map,window=4)
+```
