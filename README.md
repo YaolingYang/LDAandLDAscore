@@ -23,9 +23,12 @@ library(LDAandLDAS)
 data=list(painting_p1[,-1],painting_p2[,-1])
 
 #calculate the pairwise LDA of SNPs
-LDA_result <- LDA(data)
+LDA_result <- LDA(data,SNPlimit=1200)
 
 #map is the data containing the physical position and recombination distance of the SNPs
 #calculate the LDA score for the SNPs
-LDA_score <- LDAS(LDA_result,map,window=4)
+LDA_score <- LDAS(LDA_result,map,window=10)
+
+#visualise the LDA score
+plot(x=LDA_score$pd,y=LDA_score$LDAS)
 ```
