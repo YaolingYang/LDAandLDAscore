@@ -21,7 +21,7 @@ LDA <- function(data,printProcess=TRUE,SNPlimit=NA){
   ancestry <- length(data)
 
   #combine the painting data
-  data_combine <- Reduce(cbind,lapply(1:ancestry,function(i){data[[i]]}))
+  data_combine <- Reduce(cbind,data)
 
   if(is.na(SNPlimit)){
     SNPlimit=n_snp
