@@ -20,10 +20,10 @@ devtools::install_github("YaolingYang/LDAandLDAscore/LDAandLDAS")
 library(LDAandLDAS)
 
 #combine the painting data for two ancestries
-data=cbind(painting_p1[,-1],painting_p2[,-1])
+data=list(painting_p1[,-1],painting_p2[,-1])
 
 #calculate the pairwise LDA of SNPs
-LDA_result <- LDA(data,ancestry=2)
+LDA_result <- LDA(data)
 
 #map is the data containing the physical position and recombination distance of the SNPs
 #calculate the LDA score for the SNPs
