@@ -7,7 +7,7 @@
 LDA(data, printProcess = TRUE, SNPlimit = NA)
 }
 \arguments{
-\item{data}{a list of data frames of the N*k painting data for ancestries (N is the number of genomes, k is the number of SNPs). SNPs should be in the decreasing order.}
+\item{data}{a list of data frames of the N*k painting data for ancestries (N is the number of genomes, k is the number of SNPs).}
 
 \item{printProcess}{logical. Print the process of calculating the pairwise LDA for the i-th SNP.}
 
