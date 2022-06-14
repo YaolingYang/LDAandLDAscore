@@ -1,6 +1,6 @@
 #' Pairwise Linkage Disequilibrium of Ancestry (LDA)
 #'
-#' @param data a list of data frames of the N*k painting data for ancestries (N is the number of genomes, k is the number of SNPs). SNPs should be in the decreasing order.
+#' @param data a list of data frames of the N*k painting data for ancestries (N is the number of genomes, k is the number of SNPs).
 #' @param printProcess logical. Print the process of calculating the pairwise LDA for the i-th SNP.
 #' @param SNPlimit maximum number of SNPs at each side of the SNP used to calculate the pairwise LDA. The value shouldn't be larger than the total number of SNPs.
 #'
