@@ -29,6 +29,6 @@ LDA_result <- LDA(data,SNPlimit=1200)
 #calculate the LDA score for the SNPs
 LDA_score <- LDAS(LDA_result,map,window=10)
 
-#visualise the LDA score
+#visualise the LDA score (pd is the physical distance of a SNP)
 plot(x=LDA_score$pd,y=LDA_score$LDAS)
 ```
