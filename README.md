@@ -1,6 +1,10 @@
 # Linkage Disequilibrium of Ancestry (LDA)
 
-This is the location for the LDA and LLDA score tools that were used in Barrie et al. 2022 (in prep).
+This is the location for the LDA and LDA score tools that were used in Barrie et al. 2022 (in prep).
+
+## Authors: 
+Yaoling Yang (yaoling.yang@bristol.ac.uk)   
+Daniel Lawson (dan.lawson@bristol.ac.uk)
 
 ## Introduction
 Linkage Disequilibrium of Ancestry (LDA) quantifies the correlations between the ancestry of two SNPs, measuring the proportion of individuals who have experienced a recombination leading to a change in ancestry, relative to the genome-wide baseline.
@@ -8,8 +12,6 @@ Linkage Disequilibrium of Ancestry (LDA) quantifies the correlations between the
 LDA score is the total amount of genome in LDA with each SNP (measured in recombination map distance), which is useful for detecting the signal of selection.
 
 A detailed description can be found in "**LDA and LDA score.pdf**".
-
-This work is done by Yaoling Yang (<yaoling.yang@bristol.ac.uk>) under the supervision of Dr. Daniel Lawson (<dan.lawson@bristol.ac.uk>).
 
 ## Download R package "LDAandLDAS"
 R Package "LDAandLDAS" includes two functions "LDA" and "LDAS" for calculating LDA and LDA score, respectively.
