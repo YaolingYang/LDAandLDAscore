@@ -2,7 +2,7 @@
 
 This is the location for the LDA and LDA score tools that were used in Barrie et al. 2022 (in prep).
 
-## Authors: 
+## Authors
 Yaoling Yang (yaoling.yang@bristol.ac.uk)   
 Daniel Lawson (dan.lawson@bristol.ac.uk)
 
@@ -21,7 +21,7 @@ You can download the R package by typing the following codes in R:
 devtools::install_github("YaolingYang/LDAandLDAscore")
 ```
 
-## Examples:
+## Examples
 ```
 library(LDAandLDAS)
 
