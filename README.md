@@ -2,11 +2,11 @@
 
 This is the location for the LDA and LDA score tools that were used in Barrie et al. 2022 (in prep).
 
-Author: Yaoling Yang (yaoling.yang@bristol.ac.uk)   
+* Author: Yaoling Yang (yaoling.yang@bristol.ac.uk)   
 
-Supervisor: Daniel Lawson (dan.lawson@bristol.ac.uk)  
+* Supervisor: Daniel Lawson (dan.lawson@bristol.ac.uk)  
 
-License: GPL-3.0-or-later
+* License: GPL-3.0-or-later
 
 ## Introduction
 Linkage Disequilibrium of Ancestry (LDA) quantifies the correlations between the ancestry of two SNPs, measuring the proportion of individuals who have experienced a recombination leading to a change in ancestry, relative to the genome-wide baseline.
