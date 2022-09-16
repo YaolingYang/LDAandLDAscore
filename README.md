@@ -2,9 +2,9 @@
 
 This is the location for the LDA and LDA score tools that were used in Barrie et al. 2022 (in prep).
 
-Authors:  
-Yaoling Yang (yaoling.yang@bristol.ac.uk)   
-Daniel Lawson (dan.lawson@bristol.ac.uk)
+Author: Yaoling Yang (yaoling.yang@bristol.ac.uk)   
+
+Supervisor: Daniel Lawson (dan.lawson@bristol.ac.uk)  
 
 License: GPL-3.0-or-later
 
