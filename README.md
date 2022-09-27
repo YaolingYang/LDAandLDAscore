@@ -1,7 +1,6 @@
 # Linkage Disequilibrium of Ancestry (LDA)
 
-This is the location for the LDA and LDA score tools that were used in Barrie et al. 2022 (submitted).
-
+This is the location for the LDA and LDA score tools that were used in [Genetic risk for Multiple Sclerosis originated in Pastoralist Steppe populations](https://www.biorxiv.org/content/10.1101/2022.09.23.509097v1).
 * Author: Yaoling Yang (yaoling.yang@bristol.ac.uk)   
 
 * Supervisor: Daniel Lawson (dan.lawson@bristol.ac.uk)  
