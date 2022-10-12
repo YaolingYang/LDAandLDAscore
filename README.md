@@ -21,7 +21,7 @@ R Package "LDAandLDAS" includes two functions "LDA" and "LDAS" for calculating L
 
 You can download the R package by typing the following codes in R:
 ```
-devtools::install_github("YaolingYang/LDAandLDAS")
+devtools::install_github("YaolingYang/LDAandLDAscore")
 ```
 
 ## Examples
