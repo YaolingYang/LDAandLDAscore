@@ -1,4 +1,3 @@
-library(LDAandLDAS)
 # Linkage Disequilibrium of Ancestry (LDA) and LDA score
 
 This is the location for the LDA and LDA score tools that were used in [Barrie W, Yang
