@@ -26,6 +26,8 @@ devtools::install_github("YaolingYang/LDAandLDAscore")
 
 ## Examples
 ```
+library(LDAandLDAS)
+
 # visualize the painting data
 # Painting data are the average probabilities of different populations
 head(LDAandLDAS::example_painting_p1[1:5,],10)
