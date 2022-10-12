@@ -1,7 +1,7 @@
 # Linkage Disequilibrium of Ancestry (LDA) and LDA score
 
 This is the location for the LDA and LDA score tools that were used in [Barrie W, Yang
-Y, Attfield K E, et al. Genetic risk for Multiple Sclerosis originated
+Y, Attfield K E, et al. Genetic risk for Multiple Sclerosis originated
 in Pastoralist Steppe populations. bioRxiv
 (2022)](https://www.biorxiv.org/content/10.1101/2022.09.23.509097v1).
 
