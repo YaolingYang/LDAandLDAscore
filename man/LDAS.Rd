@@ -2,34 +2,64 @@
 % Please edit documentation in R/LDAS.R
 \name{LDAS}
 \alias{LDAS}
-\title{Linkage Disequilibrium of Ancestry Score (LDAS)}
+\title{LDA score}
 \usage{
-LDAS(LDA, map, window, printProcess = TRUE)
+LDAS(LDA_data, map, window = 5, verbose = TRUE)
 }
 \arguments{
-\item{LDA}{data frame of the pairwise LDA of all the SNPs. SNPs should be in the decreasing order.}
+\item{LDA_data}{a data frame of LDA between all pairs of SNPs that are within the 'window'.
+SNPs should be in the decreasing order of physical position on a chromosome.
+This is the output from \code{\link{LDA}}.}
 
-\item{map}{data frame of the physical position and genetic distance of all the SNPs. SNPs should be in the decreasing order.}
+\item{map}{a data frame of the physical position and genetic distance of
+all the SNPs contained in 'LDA_data'.
+'map' contains two columns.
+The first column is the physical distance (unit: b) of SNPs in the decreasing order.
+The second column is the genetic distance (unit: cM) of SNPs.}
 
-\item{window}{number of the window of genetic distance. The default window is 5.}
+\item{window}{a positive number specifying the genetic distance that
+the LDA score of each SNP is computed within. By default, window=5.}
 
-\item{printProcess}{logical. Print the process of calculating the LDA score for the i-th SNP.}
+\item{verbose}{logical. Print the process of calculating the LDA score for the i-th SNP.}
 }
 \value{
-a data frame of the LDA score and its upper and lower bound at the physical position of each SNP.
+a data frame of the LDA score and its upper and lower bound
+at the physical position of each SNP.
 }
 \description{
-Linkage Disequilibrium of Ancestry Score (LDAS)
+Computation of the Linkage Disequilibrium of Ancestry Score (LDAS) of each single nucleotide polymorphism (SNP).
+}
+\details{
+LDA score is the total amount of genome in LDA with each SNP
+(measured in recombination map distance).
+A low LDA score is the signal of “recombinant favouring selection”.
 }
 \examples{
-library(LDAandLDAS)
-#combine the painting data for two ancestries
-data=list(painting_p1[,-1],painting_p2[,-1])
-#calculate the pairwise LDA of SNPs
-LDA_result <- LDA(data,SNPlimit=1200)
-#map is the data containing the physical position and recombination distance of the SNPs
-#calculate the LDA score for the SNPs
-LDA_score <- LDAS(LDA_result,map,window=10)
-plot(x=LDA_score$pd,y=LDA_score$LDAS)
+\donttest{
+# visualize the painting data
+# Painting data are the average probabilities of different populations
+head(LDAandLDAS::example_painting_p1[1:5,],10)
 
+# combine the painting data for two ancestries as a list
+# to make to input data for function 'LDA'.
+paintings=list(LDAandLDAS::example_painting_p1,
+          LDAandLDAS::example_painting_p2)
+
+# calculate the pairwise LDA of SNPs
+LDA_result <- LDA(paintings)
+
+# map is the data containing two columns
+# The first column is the physical position (unit: b) (decreasing order)
+# The second column is the recombination distance (unit: cM) of the SNPs
+head(LDAandLDAS::example_map,10)
+
+# calculate the LDA score for the SNPs
+LDA_score <- LDAS(LDA_result,LDAandLDAS::example_map,window=10)
+
+#visualize the LDA scores
+plot(x=LDA_score$SNP,y=LDA_score$LDAS)
+}
+}
+\references{
+Barrie W, Yang Y, Attfield K E, et al. Genetic risk for Multiple Sclerosis originated in Pastoralist Steppe populations. bioRxiv (2022).
 }

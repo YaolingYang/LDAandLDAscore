@@ -2,28 +2,52 @@
 % Please edit documentation in R/LDA.R
 \name{LDA}
 \alias{LDA}
-\title{Pairwise Linkage Disequilibrium of Ancestry (LDA)}
+\title{LDA of all pairs of SNPs}
 \usage{
-LDA(data, printProcess = TRUE, SNPlimit = NA)
+LDA(paintings, SNPlimit = NULL, verbose = FALSE)
 }
 \arguments{
-\item{data}{a list of data frames of the N*k painting data for ancestries (N is the number of genomes, k is the number of SNPs).}
+\item{paintings}{a list of data frames of the N*k painting data
+(average ancestry probabilities) from different populations
+(N is the number of genomes, k is the number of SNPs).}
 
-\item{printProcess}{logical. Print the process of calculating the pairwise LDA for the i-th SNP.}
+\item{SNPlimit}{a positive integer representing the maximum number of SNPs at each side of
+a SNP that is used to calculate the pairwise LDA for the SNP.
+The value shouldn't be larger than the total number of SNPs.
+We may set a limit if the LDAs between SNPs far in distance are not to be investigated.}
 
-\item{SNPlimit}{maximum number of SNPs at each side of the SNP used to calculate the pairwise LDA. The value shouldn't be larger than the total number of SNPs.}
+\item{verbose}{logical. If verbose=TRUE, print the process of calculating the pairwise LDA for the i-th SNP.
+By default, verbose=FALSE}
 }
 \value{
-a dataframe of the pairwise LDA, with SNPs in the decreasing order.
+a data frame of the pairwise LDA, with SNPs in the decreasing
+order of physical position on a chromosome.
 }
 \description{
-Pairwise Linkage Disequilibrium of Ancestry (LDA)
+Computation of the pairwise Linkage Disequilibrium of Ancestry (LDA) between all pairs of single nucleotide polymorphisms (SNPs).
+}
+\details{
+Linkage Disequilibrium of Ancestry (LDA) quantifies the correlations
+between the ancestry of two SNPs, measuring the proportion of individuals who
+have experienced a recombination leading to a change in ancestry,
+relative to the genome-wide baseline.
 }
 \examples{
-library(LDAandLDAS)
-#combine the painting data for two ancestries
-data=list(painting_p1[,-1],painting_p2[,-1])
-#calculate the pairwise LDA of SNPs
-LDA_result <- LDA(data,SNPlimit=1000)
+\donttest{
+# visualize the painting data
+# Painting data are the average probabilities of different populations
+head(LDAandLDAS::example_painting_p1[1:5,],10)
 
+# combine the painting data for two populations as a list
+# to make to input data for function 'LDA'.
+paintings=list(LDAandLDAS::example_painting_p1,
+          LDAandLDAS::example_painting_p2)
+
+# calculate the pairwise LDA of SNPs
+LDA_result <- LDA(paintings)
+}
+
+}
+\references{
+Barrie W, Yang Y, Attfield K E, et al. Genetic risk for Multiple Sclerosis originated in Pastoralist Steppe populations. bioRxiv (2022).
 }

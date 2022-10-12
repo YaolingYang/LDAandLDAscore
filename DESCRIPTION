@@ -1,17 +1,19 @@
 Package: LDAandLDAS
 Type: Package
-Title: Calculate Linkage disequilibrium of ancestry (LDA) and LDA score (LDAS)
-Version: 0.1.0
-Author: Yaoling Yang
+Title: Linkage disequilibrium of ancestry (LDA) and LDA score (LDAS)
+Version: 1.0.1
+Authors@R: c(
+    person("Yaoling", "Yang", email = "yaoling.yang@bristol.ac.uk", role = c("aut", "cre"),
+  comment = c(ORCID = "0000-0003-4905-8097")),
+    person("Daniel", "Lawson", email = "Dan.Lawson@bristol.ac.uk", role = "aut",
+  comment = c(ORCID = "0000-0002-5311-6213")))
 Maintainer: Yaoling Yang <yaoling.yang@bristol.ac.uk>
-Description: This package includes two functions: LDA and LDAS.
-    LDA calculates the pairwise linkage disequilibrium of ancestry between SNPs.
-    LDAS calculates the LDA score of SNPs.
-License: GPL-3.0-or-later
+Description: Computation of linkage disequilibrium of ancestry (LDA) and linkage disequilibrium of ancestry score (LDAS). LDA calculates the pairwise linkage disequilibrium of ancestry between single nucleotide polymorphisms (SNPs). LDAS calculates the LDA score of SNPs. The methods are described in Barrie W, Yang Y, Attfield K E, et al (2022) <doi:10.1101/2022.09.23.509097>.
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: Rcpp (>= 1.0.8)
 LinkingTo: Rcpp
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5.0)

@@ -11,16 +11,16 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // cal
-double cal(NumericMatrix data_resample, NumericMatrix data_base, NumericMatrix data_experiment, int ancestry);
-RcppExport SEXP _LDAandLDAS_cal(SEXP data_resampleSEXP, SEXP data_baseSEXP, SEXP data_experimentSEXP, SEXP ancestrySEXP) {
+double cal(NumericMatrix data_resample, NumericMatrix data_base, NumericMatrix data_experiment, int n_ancestry);
+RcppExport SEXP _LDAandLDAS_cal(SEXP data_resampleSEXP, SEXP data_baseSEXP, SEXP data_experimentSEXP, SEXP n_ancestrySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type data_resample(data_resampleSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type data_base(data_baseSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type data_experiment(data_experimentSEXP);
-    Rcpp::traits::input_parameter< int >::type ancestry(ancestrySEXP);
-    rcpp_result_gen = Rcpp::wrap(cal(data_resample, data_base, data_experiment, ancestry));
+    Rcpp::traits::input_parameter< int >::type n_ancestry(n_ancestrySEXP);
+    rcpp_result_gen = Rcpp::wrap(cal(data_resample, data_base, data_experiment, n_ancestry));
     return rcpp_result_gen;
 END_RCPP
 }
