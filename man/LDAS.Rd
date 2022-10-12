@@ -2,7 +2,7 @@
 % Please edit documentation in R/LDAS.R
 \name{LDAS}
 \alias{LDAS}
-\title{LDA score}
+\title{LDA Score}
 \usage{
 LDAS(LDA_data, map, window = 5, verbose = TRUE)
 }

@@ -1,4 +1,4 @@
-#' @title Linkage disequilibrium of ancestry (LDA) and LDA score (LDAS)
+#' @title Linkage Disequilibrium of Ancestry (LDA) and LDA Score (LDAS)
 #'
 #' @description
 #' This is the software for Linkage disequilibrium of ancestry (LDA) and LDA score (LDAS) which is proposed by
@@ -13,7 +13,7 @@
 #' (measured in recombination map distance), which is useful for detecting the
 #' signal of “recombinant favouring selection”.
 #'
-#' The codes for LDA and LDAS are hosted at \url{https://github.com/YaolingYang/LDAandLDAS}.
+#' The codes for LDA and LDAS are hosted at \url{https://github.com/YaolingYang/LDAandLDAscore}.
 #'
 #' @references Barrie W, Yang Y, Attfield K E, et al. Genetic risk for Multiple Sclerosis originated in Pastoralist Steppe populations. bioRxiv (2022).
 #' @importFrom methods is

@@ -1,4 +1,4 @@
-#' @title LDA score
+#' @title LDA Score
 #' @description Computation of the Linkage Disequilibrium of Ancestry Score (LDAS) of each single nucleotide polymorphism (SNP).
 #' @param LDA_data a data frame of LDA between all pairs of SNPs that are within the 'window'.
 #' SNPs should be in the decreasing order of physical position on a chromosome.
