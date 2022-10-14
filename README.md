@@ -16,9 +16,9 @@ Linkage Disequilibrium of Ancestry (LDA) quantifies the correlations between the
 
 LDA score is the total amount of genome in LDA with each SNP (measured in recombination map distance), which is useful for detecting the signal of selection.
 
-## Install R package "LDAandLDAS"
+## Install R package "LDAandLDAS" from CRAN
 ```
-devtools::install.packages("LDAandLDAS")
+install.packages("LDAandLDAS")
 ```
 
 ## Examples
