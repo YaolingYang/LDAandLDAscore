@@ -13,6 +13,7 @@
 #' @param runparallel logical. Parallel programming or not.
 #' @param mc.cores a positive number specifying the number of cores used for parallel programming. By default, mc.cores=8.
 #' @param verbose logical. Print the process of calculating the LDA score for the i-th SNP.
+#' @param Windows logical. The system is Windows or not (Windows=FALSE by default).
 #'
 #' @return a data frame of the LDA score and its upper and lower bound
 #' at the physical position of each SNP.
@@ -48,7 +49,7 @@
 #' }
 #' @export
 
-LDAS <- function(LDA_data,map,window=5,runparallel=FALSE,mc.cores=8,verbose=TRUE){
+LDAS <- function(LDA_data,map,window=5,runparallel=FALSE,mc.cores=8,verbose=TRUE,Windows=FALSE){
   n_snp <- nrow(map)
 
   LDA_score <- vector()
@@ -242,15 +243,20 @@ LDAS <- function(LDA_data,map,window=5,runparallel=FALSE,mc.cores=8,verbose=TRUE
 
 
   if(runparallel){
-    cl <- parallel::makeCluster(mc.cores)
+    if(Windows){
+      cl <- makeCluster(mc.cores)
+      registerDoParallel(cl)
 
-    parallel::clusterExport(cl, c("cal_ldas", "n_snp"))
+      LDA_score <- foreach(i = 1:n_snp, .combine = 'cbind') %dopar% {
+        cal_ldas(i)
+      }
 
-    result_list <- parallel::parLapply(cl, 1:n_snp, cal_ldas)
+      LDA_score <- cbind(map, t(as.data.frame(LDA_score)))
 
-    LDA_score <- cbind(map, t(as.data.frame(result_list)))
-
-    #LDA_score <- cbind(map,t(as.data.frame(parallel::mclapply(1:n_snp,cal_ldas,mc.cores=mc.cores))))
+      stopCluster(cl)
+    }else{
+      LDA_score <- cbind(map,t(as.data.frame(parallel::mclapply(1:n_snp,cal_ldas,mc.cores=mc.cores))))
+    }
   }else{
     LDA_score <- cbind(map,t(as.data.frame(lapply(1:n_snp,cal_ldas))))
   }

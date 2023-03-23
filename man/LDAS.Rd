@@ -10,7 +10,8 @@ LDAS(
   window = 5,
   runparallel = FALSE,
   mc.cores = 8,
-  verbose = TRUE
+  verbose = TRUE,
+  Windows = FALSE
 )
 }
 \arguments{
@@ -32,6 +33,8 @@ the LDA score of each SNP is computed within. By default, window=5.}
 \item{mc.cores}{a positive number specifying the number of cores used for parallel programming. By default, mc.cores=8.}
 
 \item{verbose}{logical. Print the process of calculating the LDA score for the i-th SNP.}
+
+\item{Windows}{logical. The system is Windows or not (Windows=FALSE by default).}
 }
 \value{
 a data frame of the LDA score and its upper and lower bound
