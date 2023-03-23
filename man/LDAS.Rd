@@ -27,7 +27,7 @@ The second column is the genetic distance (unit: cM) of SNPs.}
 \item{window}{a positive number specifying the genetic distance that
 the LDA score of each SNP is computed within. By default, window=5.}
 
-\item{runparallel}{logical. Parallel programming or not. Windows system is not supported. By default, runparallel=FALSE.}
+\item{runparallel}{logical. Parallel programming or not.}
 
 \item{mc.cores}{a positive number specifying the number of cores used for parallel programming. By default, mc.cores=8.}
 

@@ -10,7 +10,7 @@
 #' The second column is the genetic distance (unit: cM) of SNPs.
 #' @param window a positive number specifying the genetic distance that
 #' the LDA score of each SNP is computed within. By default, window=5.
-#' @param runparallel logical. Parallel programming or not. Windows system is not supported. By default, runparallel=FALSE.
+#' @param runparallel logical. Parallel programming or not.
 #' @param mc.cores a positive number specifying the number of cores used for parallel programming. By default, mc.cores=8.
 #' @param verbose logical. Print the process of calculating the LDA score for the i-th SNP.
 #'
@@ -242,7 +242,15 @@ LDAS <- function(LDA_data,map,window=5,runparallel=FALSE,mc.cores=8,verbose=TRUE
 
 
   if(runparallel){
-    LDA_score <- cbind(map,t(as.data.frame(parallel::mclapply(1:n_snp,cal_ldas,mc.cores=mc.cores))))
+    cl <- parallel::makeCluster(mc.cores)
+
+    parallel::clusterExport(cl, c("cal_ldas", "n_snp"))
+
+    result_list <- parallel::parLapply(cl, 1:n_snp, cal_ldas)
+
+    LDA_score <- cbind(map, t(as.data.frame(result_list)))
+
+    #LDA_score <- cbind(map,t(as.data.frame(parallel::mclapply(1:n_snp,cal_ldas,mc.cores=mc.cores))))
   }else{
     LDA_score <- cbind(map,t(as.data.frame(lapply(1:n_snp,cal_ldas))))
   }
