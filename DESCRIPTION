@@ -1,7 +1,7 @@
 Package: LDAandLDAS
 Type: Package
 Title: Linkage Disequilibrium of Ancestry (LDA) and LDA Score (LDAS)
-Version: 1.0.2
+Version: 1.0.3
 Authors@R: c(
     person("Yaoling", "Yang", email = "yaoling.yang@bristol.ac.uk", role = c("aut", "cre"),
   comment = c(ORCID = "0000-0003-4905-8097")),
@@ -12,7 +12,7 @@ Description: Computation of linkage disequilibrium of ancestry (LDA) and linkage
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Imports: Rcpp (>= 1.0.8)
+Imports: Rcpp (>= 1.0.8), parallel
 LinkingTo: Rcpp
 RoxygenNote: 7.2.1
 Depends: 

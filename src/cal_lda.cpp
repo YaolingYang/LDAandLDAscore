@@ -1,4 +1,6 @@
+// [[Rcpp::plugins(openmp)]]
 #include <Rcpp.h>
+#include <omp.h>
 using namespace Rcpp;
 
 //' @title LDA of a pair of SNPs
@@ -38,9 +40,10 @@ double cal(NumericMatrix data_resample,NumericMatrix data_base, NumericMatrix da
   int k = data_base.nrow();
   double RMSa=0;
   double RMSb=0;
-  double a=0;
-  double b=0;
+  #pragma omp parallel for reduction(+:RMSa, RMSb)
   for (int i=0; i<k; i++){
+    double a=0;
+    double b=0;
     for (int j=0; j<n_ancestry; j++){
       a=pow(data_base(i,j)-data_experiment(i,j),2)+a;
       b=pow(data_resample(i,j)-data_experiment(i,j),2)+b;

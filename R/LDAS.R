@@ -10,6 +10,8 @@
 #' The second column is the genetic distance (unit: cM) of SNPs.
 #' @param window a positive number specifying the genetic distance that
 #' the LDA score of each SNP is computed within. By default, window=5.
+#' @param runparallel logical. Parallel programming or not. Windows system is not supported. By default, runparallel=FALSE.
+#' @param mc.cores a positive number specifying the number of cores used for parallel programming. By default, mc.cores=8.
 #' @param verbose logical. Print the process of calculating the LDA score for the i-th SNP.
 #'
 #' @return a data frame of the LDA score and its upper and lower bound
@@ -46,26 +48,14 @@
 #' }
 #' @export
 
-LDAS <- function(LDA_data,map,window=5,verbose=TRUE){
+LDAS <- function(LDA_data,map,window=5,runparallel=FALSE,mc.cores=8,verbose=TRUE){
   n_snp <- nrow(map)
-  cal_average_lda <- function(n){
-    ave <- (LDA_use[n]+LDA_use[n+1])/2
-    return(ave)
-  }
-  max_lda <- function(n){
-    max_lda <- max(LDA_use[n],LDA_use[n+1])
-    return(max_lda)
-  }
-  min_lda <- function(n){
-    min_lda <- min(LDA_use[n],LDA_use[n+1])
-    return(min_lda)
-  }
 
   LDA_score <- vector()
   LDA_score_max <- vector()
   LDA_score_min <- vector()
 
-  for (j in 1:n_snp){
+  cal_ldas <- function(j){
     if(verbose) cat("Calculating LDA score of SNP",j,'\n');
 
     # the number of SNPs within 5cM window left and right to the SNP
@@ -95,9 +85,9 @@ LDAS <- function(LDA_data,map,window=5,verbose=TRUE){
     #LDA_use <- LDA_data[(j-n_snps1):(j+n_snps2),j] #use these LDA data
 
     # the average LDA of two SNPs with respect to the jth SNP
-    lda_score_j <- sapply(1:(n_snps1+n_snps2),cal_average_lda)
-    lda_score_max_j <- sapply(1:(n_snps1+n_snps2),max_lda)
-    lda_score_min_j <- sapply(1:(n_snps1+n_snps2),min_lda)
+    lda_score_j <- sapply(1:(n_snps1+n_snps2),function(n)(LDA_use[n]+LDA_use[n+1])/2)
+    lda_score_max_j <- sapply(1:(n_snps1+n_snps2),function(n)max(LDA_use[n],LDA_use[n+1]))
+    lda_score_min_j <- sapply(1:(n_snps1+n_snps2),function(n)min(LDA_use[n],LDA_use[n+1]))
 
     #left end in reality but right end in the data
     if(map[j,2]<window+map[n_snp,2]){
@@ -242,14 +232,22 @@ LDAS <- function(LDA_data,map,window=5,verbose=TRUE){
       }
     }
 
-    if(length(lda_score_j)!=length(snp_gd_gap)){print(j)}
+    #if(length(lda_score_j)!=length(snp_gd_gap)){print(j)}
     # compute the LDA score
-    LDA_score[j]=sum(lda_score_j*snp_gd_gap)
-    LDA_score_max[j]=sum(lda_score_max_j*snp_gd_gap)
-    LDA_score_min[j]=sum(lda_score_min_j*snp_gd_gap)
+    LDA_score_temp=sum(lda_score_j*snp_gd_gap)
+    LDA_score_max_temp=sum(lda_score_max_j*snp_gd_gap)
+    LDA_score_min_temp=sum(lda_score_min_j*snp_gd_gap)
+    return(c(LDA_score_temp,LDA_score_max_temp,LDA_score_min_temp))
   }
 
-  LDA_score <- cbind(map,LDA_score,LDA_score_max,LDA_score_min)
+
+  if(runparallel){
+    LDA_score <- cbind(map,t(as.data.frame(parallel::mclapply(1:n_snp,cal_ldas,mc.cores=mc.cores))))
+  }else{
+    LDA_score <- cbind(map,t(as.data.frame(lapply(1:n_snp,cal_ldas))))
+  }
+
+
   colnames(LDA_score)[3]='LDAS'
   colnames(LDA_score)[4]='LDAS_max'
   colnames(LDA_score)[5]='LDAS_min'
