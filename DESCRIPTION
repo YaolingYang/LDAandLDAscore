@@ -1,7 +1,7 @@
 Package: LDAandLDAS
 Type: Package
 Title: Linkage Disequilibrium of Ancestry (LDA) and LDA Score (LDAS)
-Version: 1.0.3
+Version: 1.1.1
 Authors@R: c(
     person("Yaoling", "Yang", email = "yaoling.yang@bristol.ac.uk", role = c("aut", "cre"),
   comment = c(ORCID = "0000-0003-4905-8097")),
