@@ -1,19 +1,23 @@
 #' @title LDA Score
 #' @description Computation of the Linkage Disequilibrium of Ancestry Score (LDAS) of each single nucleotide polymorphism (SNP).
 #' @param LDA_data a data frame of LDA between all pairs of SNPs that are within the 'window'.
-#' SNPs should be in the decreasing order of physical position on a chromosome.
+#' SNPs should be in the decreasing order of physical position on a chromosome for both rows and columns.
 #' This is the output from \code{\link{LDA}}.
 #' @param map a data frame of the physical position and genetic distance of
 #' all the SNPs contained in 'LDA_data'.
 #' 'map' contains two columns.
 #' The first column is the physical distance (unit: b) of SNPs in the decreasing order.
 #' The second column is the genetic distance (unit: cM) of SNPs.
+#' @param SNPidx a numeric vector denoting the LDAS of which SNPs
+#' (located in which rows of the map) are computed.
+#' All the SNPs' indices in the LDA_data should be included in SNPidx.
+#' By default, SNPidx=NULL which specifies the LDAS of all the SNPs in the map will be computed.
 #' @param window a positive number specifying the genetic distance that
 #' the LDA score of each SNP is computed within. By default, window=5.
-#' @param runparallel logical. Parallel programming or not.
-#' @param mc.cores a positive number specifying the number of cores used for parallel programming. By default, mc.cores=8.
+#' @param runparallel logical. Parallel programming or not (note: unavailable for Windows system).
+#' @param mc.cores a positive number specifying the number of cores used for parallel programming.
+#' By default, mc.cores=8.
 #' @param verbose logical. Print the process of calculating the LDA score for the i-th SNP.
-#' @param Windows logical. The system is Windows or not (Windows=FALSE by default).
 #'
 #' @return a data frame of the LDA score and its upper and lower bound
 #' at the physical position of each SNP.
@@ -42,15 +46,29 @@
 #' head(LDAandLDAS::example_map,10)
 #'
 #' # calculate the LDA score for the SNPs
-#' LDA_score <- LDAS(LDA_result,LDAandLDAS::example_map,window=10)
+#' LDA_score <- LDAS(LDA_result,map=LDAandLDAS::example_map,window=10)
 #'
 #' #visualize the LDA scores
 #' plot(x=LDA_score$SNP,y=LDA_score$LDAS)
+#'
+#' #' # if we only want to calculate the LDA of the 76th-85th SNP in the map
+#' # based on the 31st-130th SNP, which aims at saving the memory
+#' paintings2=list(LDAandLDAS::example_painting_p1[,31:130],
+#'                 LDAandLDAS::example_painting_p2[,31:130])
+#' # note that the 76th-85th SNP in the original dataset is only the
+#' # (76-30)th-(85-30)th SNP in the new dataset (paintings2)
+#' LDA_result2 <- LDA(paintings2,SNPidx=76:85-30)
+#'
+#' # calculate the LDA score for the SNPs
+#' LDA_score2 <- LDAS(LDA_result2,SNPidx=76:85-30,
+#'                    map=LDAandLDAS::example_map[31:130,],window=5)
 #' }
 #' @export
 
-LDAS <- function(LDA_data,map,window=5,runparallel=FALSE,mc.cores=8,verbose=TRUE,Windows=FALSE){
+LDAS <- function(LDA_data,SNPidx=NULL,map,window=5,runparallel=FALSE,mc.cores=8,verbose=TRUE){
   n_snp <- nrow(map)
+
+  if(is.null(SNPidx)) SNPidx=1:nrow(map)
 
   LDA_score <- vector()
   LDA_score_max <- vector()
@@ -58,6 +76,13 @@ LDAS <- function(LDA_data,map,window=5,runparallel=FALSE,mc.cores=8,verbose=TRUE
 
   cal_ldas <- function(j){
     if(verbose) cat("Calculating LDA score of SNP",j,'\n');
+
+    LDA_idx <- which(SNPidx==j)
+
+    max_window=max(c(map[1,2]-map[j,2],map[j,2]-map[n_snp,2]))
+    if(max_window<window) window=max_window
+
+    window=window-1e-6 ## avoid genetic distance equals the window
 
     # the number of SNPs within 5cM window left and right to the SNP
     # Note: n_snps1 is left in our data but right in reality
@@ -68,18 +93,18 @@ LDAS <- function(LDA_data,map,window=5,runparallel=FALSE,mc.cores=8,verbose=TRUE
     if(j==1){
       snp_gd_gap <- abs(map[(j+1):(j+n_snps2),2]-
                           map[j:(j+n_snps2-1),2])
-      LDA_use <- as.numeric(c(1,LDA_data[(j+1):(j+n_snps2),j]))
+      LDA_use <- as.numeric(c(1,LDA_data[(j+1):(j+n_snps2),LDA_idx]))
     }else{
       if(j==n_snp){
         snp_gd_gap <- abs(map[(j-n_snps1):(j-1),2]-
                             map[(j-n_snps1+1):j,2])
-        LDA_use <- as.numeric(c(LDA_data[j,(j-n_snps1):(j-1)],1))
+        LDA_use <- as.numeric(c(LDA_data[(j-n_snps1):(j-1),LDA_idx],1))
       }else{
         snp_gd_gap <- c(abs(map[(j-n_snps1):(j-1),2]-
                               map[(j-n_snps1+1):j,2]),
                         abs(map[(j+1):(j+n_snps2),2]-
                               map[j:(j+n_snps2-1),2]))
-        LDA_use <- as.numeric(c(LDA_data[j,(j-n_snps1):(j-1)],1,LDA_data[(j+1):(j+n_snps2),j]))
+        LDA_use <- as.numeric(c(LDA_data[(j-n_snps1):(j-1),LDA_idx],1,LDA_data[(j+1):(j+n_snps2),LDA_idx]))
       }
     }
 
@@ -93,7 +118,7 @@ LDAS <- function(LDA_data,map,window=5,runparallel=FALSE,mc.cores=8,verbose=TRUE
     #left end in reality but right end in the data
     if(map[j,2]<window+map[n_snp,2]){
 
-      LDA_right=as.numeric(LDA_data[j,j-n_snps1-1])
+      LDA_right=as.numeric(LDA_data[j-n_snps1-1,LDA_idx])
       gd_gap=map[j-n_snps1-1,2]-map[j-n_snps1,2]
       gd_to_end=window-map[j-n_snps1,2]+map[j,2]
       LDA_right_ave = (LDA_use[1]+gd_to_end/gd_gap*(LDA_right-LDA_use[1]))/2
@@ -148,12 +173,12 @@ LDAS <- function(LDA_data,map,window=5,runparallel=FALSE,mc.cores=8,verbose=TRUE
         }
       }
 
-    }else{
+    }else if(map[j,2]>window+map[n_snp,2]){
       #right end
       if(map[j,2]>map[1,2]-window){
 
         #left in real, but right in our data (right is small pd)
-        LDA_left=as.numeric(LDA_data[j+n_snps2+1,j])
+        LDA_left=as.numeric(LDA_data[j+n_snps2+1,LDA_idx])
         gd_gap=map[j+n_snps2,2]-map[j+n_snps2+1,2]
         gd_to_end=map[j+n_snps2,2]-map[j,2]+window
         LDA_left_ave = (LDA_use[n_snps1+n_snps2+1]+
@@ -209,7 +234,7 @@ LDAS <- function(LDA_data,map,window=5,runparallel=FALSE,mc.cores=8,verbose=TRUE
         }
 
       }else{
-        LDA_right=as.numeric(LDA_data[j,j-n_snps1-1])
+        LDA_right=as.numeric(LDA_data[j-n_snps1-1,LDA_idx])
         gd_gap_right=map[j-n_snps1-1,2]-map[j-n_snps1,2]
         gd_to_end_right=window-map[j-n_snps1,2]+map[j,2]
         LDA_right_ave = (LDA_use[1]+gd_to_end_right/gd_gap_right*(LDA_right-LDA_use[1]))/2
@@ -217,7 +242,7 @@ LDAS <- function(LDA_data,map,window=5,runparallel=FALSE,mc.cores=8,verbose=TRUE
         LDA_right_ave_min = min(LDA_use[1],LDA_right)
 
 
-        LDA_left=as.numeric(LDA_data[j+n_snps2+1,j])
+        LDA_left=as.numeric(LDA_data[j+n_snps2+1,LDA_idx])
 
         gd_gap_left=map[j+n_snps2,2]-map[j+n_snps2+1,2]
         gd_to_end_left=map[j+n_snps2,2]-map[j,2]+window
@@ -243,22 +268,9 @@ LDAS <- function(LDA_data,map,window=5,runparallel=FALSE,mc.cores=8,verbose=TRUE
 
 
   if(runparallel){
-    if(Windows){
-      cl <- makeCluster(mc.cores)
-      registerDoParallel(cl)
-
-      LDA_score <- foreach(i = 1:n_snp, .combine = 'cbind') %dopar% {
-        cal_ldas(i)
-      }
-
-      LDA_score <- cbind(map, t(as.data.frame(LDA_score)))
-
-      stopCluster(cl)
-    }else{
-      LDA_score <- cbind(map,t(as.data.frame(parallel::mclapply(1:n_snp,cal_ldas,mc.cores=mc.cores))))
-    }
+    LDA_score <- cbind(map[SNPidx,],t(as.data.frame(parallel::mclapply(SNPidx,cal_ldas,mc.cores=mc.cores))))
   }else{
-    LDA_score <- cbind(map,t(as.data.frame(lapply(1:n_snp,cal_ldas))))
+    LDA_score <- cbind(map[SNPidx,],t(as.data.frame(lapply(SNPidx,cal_ldas))))
   }
 
 

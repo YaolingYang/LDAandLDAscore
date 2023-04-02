@@ -3,6 +3,8 @@
 #' @param paintings a list of data frames of the N*k painting data
 #' (average ancestry probabilities) from different populations
 #' (N is the number of genomes, k is the number of SNPs).
+#' @param SNPidx a numeric vector representing the LDA of which SNPs (indices) are computed.
+#' By default, SNPidx=NULL which specifies the LDA of all the SNPs will be computed.
 #' @param SNPlimit a positive integer representing the maximum number of SNPs at each side of
 #' a SNP that is used to calculate the pairwise LDA for the SNP.
 #' The value shouldn't be larger than the total number of SNPs.
@@ -29,15 +31,23 @@
 #' # combine the painting data for two populations as a list
 #' # to make to input data for function 'LDA'.
 #' paintings=list(LDAandLDAS::example_painting_p1,
-#'           LDAandLDAS::example_painting_p2)
+#'                LDAandLDAS::example_painting_p2)
 #'
 #' # calculate the pairwise LDA of SNPs
 #' LDA_result <- LDA(paintings)
+#'
+#' # if we only want to calculate the LDA of the 76th-85th SNP in the map
+#' # based on the 31st-130th SNP, which aims at saving the memory
+#' paintings2=list(LDAandLDAS::example_painting_p1[,31:130],
+#'                 LDAandLDAS::example_painting_p2[,31:130])
+#' # note that the 76th-85th SNP in the original dataset is only the
+#' # (76-30)th-(85-30)th SNP in the new dataset (paintings2)
+#' LDA_result2 <- LDA(paintings2,SNPidx=76:85-30)
 #' }
 #'
 #' @export
 #'
-LDA <- function(paintings,SNPlimit=NULL,verbose=FALSE){
+LDA <- function(paintings,SNPidx=NULL,SNPlimit=NULL,verbose=FALSE){
 
   n_snp <- ncol(paintings[[1]])
 
@@ -56,40 +66,78 @@ LDA <- function(paintings,SNPlimit=NULL,verbose=FALSE){
   }
 
   #calculate pairwise lda
-    lda<- as.data.frame(matrix(NA,nrow=n_snp,ncol=n_snp))
     k=1
-    for (i in 1:(n_snp-1)){
-      data_hap1 <- cbind(data_combine[,i],data_combine[,i+n_snp])
-      if(n_ancestry>2){
-        for(m in 2:n_ancestry){
-          data_hap1 <- cbind(data_hap1,data_combine[,i+(m-1)*n_snp])
-        }
-      }
-
-      data_resample <- data_hap1[sample(1:nrow(data_hap1)),]
-      if(i<n_snp-SNPlimit){
-        SNPnumberlimit=i+SNPlimit
-      }else{
-        SNPnumberlimit=n_snp
-      }
-      for(j in (i+1):SNPnumberlimit){
-        data_hap2 <- cbind(data_combine[,j],data_combine[,j+n_snp])
+    if(is.null(SNPidx)){
+      ## calculating LDA for all the SNPs
+      lda<- as.data.frame(matrix(0,nrow=n_snp,ncol=n_snp))
+      for (i in 1:(n_snp-1)){
+        data_hap1 <- cbind(data_combine[,i],data_combine[,i+n_snp])
         if(n_ancestry>2){
           for(m in 2:n_ancestry){
-            data_hap2 <- cbind(data_hap2,data_combine[,j+(m-1)*n_snp])
+            data_hap1 <- cbind(data_hap1,data_combine[,i+(m-1)*n_snp])
           }
         }
-        lda[j,k] <- cal_lda(data_resample,data_hap1,data_hap2,n_ancestry)
 
+        data_resample <- data_hap1[sample(1:nrow(data_hap1)),]
+        if(i<n_snp-SNPlimit){
+          SNPnumberlimit=i+SNPlimit
+        }else{
+          SNPnumberlimit=n_snp
+        }
+        for(j in (i+1):SNPnumberlimit){
+          data_hap2 <- cbind(data_combine[,j],data_combine[,j+n_snp])
+          if(n_ancestry>2){
+            for(m in 2:n_ancestry){
+              data_hap2 <- cbind(data_hap2,data_combine[,j+(m-1)*n_snp])
+            }
+          }
+          lda[j,k] <- cal_lda(data_resample,data_hap1,data_hap2,n_ancestry)
+
+        }
+        k=k+1
+        if(verbose) cat("Calculating pairwise LDA of SNP",i,'\n');
       }
-      k=k+1
-      if(verbose) cat("Calculating pairwise LDA of SNP",i,'\n');
+
+      lda=lda+t(lda)
+      diag(lda)=1
+      colnames(lda)=row.names(lda)=colnames(data_combine)[1:n_snp]
+    }else{
+      ## calculating LDA for specific SNPs
+      lda<- as.data.frame(matrix(0,nrow=n_snp,ncol=length(SNPidx)))
+      for (i in SNPidx){
+        data_hap1 <- cbind(data_combine[,i],data_combine[,i+n_snp])
+        if(n_ancestry>2){
+          for(m in 2:n_ancestry){
+            data_hap1 <- cbind(data_hap1,data_combine[,i+(m-1)*n_snp])
+          }
+        }
+
+        data_resample <- data_hap1[sample(1:nrow(data_hap1)),]
+        if(i<n_snp-SNPlimit){
+          SNPnumberlimit=i+SNPlimit
+        }else{
+          SNPnumberlimit=n_snp
+        }
+        for(j in 1:SNPnumberlimit){
+          if(j!=i){
+            data_hap2 <- cbind(data_combine[,j],data_combine[,j+n_snp])
+            if(n_ancestry>2){
+              for(m in 2:n_ancestry){
+                data_hap2 <- cbind(data_hap2,data_combine[,j+(m-1)*n_snp])
+              }
+            }
+            lda[j,k] <- cal_lda(data_resample,data_hap1,data_hap2,n_ancestry)
+          }else{
+            lda[j,k]=1
+          }
+        }
+        k=k+1
+        if(verbose) cat("Calculating pairwise LDA of SNP",i,'\n');
+      }
+      colnames(lda)=colnames(data_combine)[SNPidx]
+      row.names(lda)=colnames(data_combine)[1:n_snp]
     }
 
-  lda[is.na(lda)] <- 0
-  lda=lda+t(lda)
-  diag(lda)=1
-  colnames(lda)=row.names(lda)=colnames(data_combine)[1:n_snp]
   return(lda)
 }
 
