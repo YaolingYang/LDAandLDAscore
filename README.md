@@ -1,8 +1,6 @@
 # Linkage Disequilibrium of Ancestry (LDA) and LDA score
 
-This is the location for the LDA and LDA score tools that were used in [Barrie W, Yang
-Y, Attfield K E, et al. Elevated genetic risk for multiple sclerosis originated in Steppe Pastoralist populations. Nature
-(2024)](https://www.nature.com/articles/s41586-023-06618-z).
+This is the location for the LDA and LDA score tools that were used in [Barrie, W., Yang, Y., Irving-Pease, E.K. et al. Elevated genetic risk for multiple sclerosis emerged in steppe pastoralist populations. Nature 625, 321–328 (2024).](https://www.nature.com/articles/s41586-023-06618-z).
 
 -   Authors:  
     Yaoling Yang (<yaoling.yang@bristol.ac.uk>)  
