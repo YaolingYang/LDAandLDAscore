@@ -21,7 +21,7 @@ signal of “recombinant favouring selection”.
 The codes for LDA and LDAS are hosted at \url{https://github.com/YaolingYang/LDAandLDAscore}.
 }
 \references{
-Barrie W, Yang Y, Attfield K E, et al. Genetic risk for Multiple Sclerosis originated in Pastoralist Steppe populations. bioRxiv (2022).
+Barrie, W., Yang, Y., Irving-Pease, E.K. et al. Elevated genetic risk for multiple sclerosis emerged in steppe pastoralist populations. Nature 625, 321–328 (2024).
 }
 \author{
 \strong{Maintainer}: Yaoling Yang \email{yaoling.yang@bristol.ac.uk} (\href{https://orcid.org/0000-0003-4905-8097}{ORCID})

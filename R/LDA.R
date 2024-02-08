@@ -20,7 +20,7 @@
 #' have experienced a recombination leading to a change in ancestry,
 #' relative to the genome-wide baseline.
 #'
-#' @references Barrie W, Yang Y, Attfield K E, et al. Genetic risk for Multiple Sclerosis originated in Pastoralist Steppe populations. bioRxiv (2022).
+#' @references Barrie, W., Yang, Y., Irving-Pease, E.K. et al. Elevated genetic risk for multiple sclerosis emerged in steppe pastoralist populations. Nature 625, 321–328 (2024).
 #'
 #' @examples
 #' \donttest{

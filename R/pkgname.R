@@ -15,7 +15,7 @@
 #'
 #' The codes for LDA and LDAS are hosted at \url{https://github.com/YaolingYang/LDAandLDAscore}.
 #'
-#' @references Barrie W, Yang Y, Attfield K E, et al. Genetic risk for Multiple Sclerosis originated in Pastoralist Steppe populations. bioRxiv (2022).
+#' @references Barrie, W., Yang, Y., Irving-Pease, E.K. et al. Elevated genetic risk for multiple sclerosis emerged in steppe pastoralist populations. Nature 625, 321–328 (2024).
 #' @importFrom methods is
 "_PACKAGE"
 #> [1] "_PACKAGE"

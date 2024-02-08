@@ -20,7 +20,7 @@ using namespace Rcpp;
 //' @details This function computes the LDA between two SNPs.
 //' Resampling of one of the SNPs' painting data is required prior to implementing this function.
 //' To compute pairwise LDA between multiple pairs of SNPs, please use \code{\link{LDA}}.
-//' @references Barrie W, Yang Y, Attfield K E, et al. Genetic risk for Multiple Sclerosis originated in Pastoralist Steppe populations. bioRxiv (2022).
+//' @references Barrie, W., Yang, Y., Irving-Pease, E.K. et al. Elevated genetic risk for multiple sclerosis emerged in steppe pastoralist populations. Nature 625, 321–328 (2024).
 //' @examples
 //' \donttest{
 //' # compute the LDA between the 50th SNP and the 55th SNP

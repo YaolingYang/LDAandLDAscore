@@ -60,5 +60,5 @@ LDA_result2 <- LDA(paintings2,SNPidx=76:85-30)
 
 }
 \references{
-Barrie W, Yang Y, Attfield K E, et al. Genetic risk for Multiple Sclerosis originated in Pastoralist Steppe populations. bioRxiv (2022).
+Barrie, W., Yang, Y., Irving-Pease, E.K. et al. Elevated genetic risk for multiple sclerosis emerged in steppe pastoralist populations. Nature 625, 321–328 (2024).
 }
