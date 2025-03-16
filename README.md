@@ -20,7 +20,7 @@ install.packages("LDAandLDAS")
 
 You can also install the updated version from GitHub:  
 ``` r
-devtools::install_github("https://github.com/YaolingYang/HTRX")
+devtools::install_github("https://github.com/YaolingYang/LDAandLDAS")
 ```
 
 We also developed the C++ software [SparsePainter](https://github.com/YaolingYang/SparsePainter) that can compute LDA and LDAS from the raw genotype data (either in VCF or phase format).
